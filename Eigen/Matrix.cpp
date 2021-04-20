@@ -111,6 +111,35 @@ std::cout<<C_mat<<std::endl;
 
 
 
+// Matrix -> container
+
+Eigen::Matrix<double,2,2,Eigen::RowMajor> D_mat;
+Eigen::Matrix<double,2,2,Eigen::ColMajor> E_mat;
+
+
+D_mat <<1,2,3,4;
+E_mat << 1,2,3,4;
+
+double a_r_r_a_y_1[4];
+double a_r_r_a_y_2[4];
+
+Eigen::Map< Eigen::Matrix<double,2,2,Eigen::RowMajor> > (&a_r_r_a_y_1[0],2,2) = D_mat;
+Eigen::Map< Eigen::Matrix<double,2,2,Eigen::ColMajor> > (&a_r_r_a_y_2[0],2,2) = E_mat;
+
+for(int i=0;i<4;i++){
+
+std::cout<<a_r_r_a_y_1[i]<<std::endl;
+
+};
+
+for(int i=0;i<4;i++){
+
+std::cout<<a_r_r_a_y_2[i]<<std::endl;
+
+};
+
+
+
 
 
 
@@ -141,18 +170,20 @@ Eigen::Matrix2d A_Matrix;
 
 A_Matrix = Eigen::MatrixXd::Zero(2,2); //zeroで初期化
 
+
+
 //以下のような方法がある
 
-/*
-
-A_Matrix = Eigen::MatrixXd::Ones(2,2);   //1で初期化
-A_Matrix = Eigen::MatrixXd::Constant(2,2,3.14); //3.14で初期化
-A_Matrix = Eigen::MatrixXd::Identity(2,2); //単位行列
-A_Matrix = Eigen::MatrixXd::Zero(2,2);
-A_Matrix = Eigen::MatrixXd::Random(2,2); //random
 
 
-*/
+//A_Matrix = Eigen::MatrixXd::Ones(2,2);   //1で初期化
+//A_Matrix = Eigen::MatrixXd::Constant(2,2,3.14); //3.14で初期化
+//A_Matrix = Eigen::MatrixXd::Identity(2,2); //単位行列
+//A_Matrix = Eigen::MatrixXd::Zero(2,2);
+//A_Matrix = Eigen::MatrixXd::Random(2,2); //random
+
+
+
 
 
 
