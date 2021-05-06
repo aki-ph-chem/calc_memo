@@ -18,22 +18,46 @@
 #add_executable(a.out main.cpp souce.cpp)
 
 
+
+
+
 ###静的ライブラリを経由する方法###
 
 
-cmake_minimum_required(VERSION 3.16.3)
+#cmake_minimum_required(VERSION 3.16.3)
 
-project(cmake_test CXX)
+#project(cmake_test CXX)
 
 # good.cpp souce.cpp　をコンパイルして静的ライブラリ　test.aを作成
 
-add_library( test STATIC good.cpp souce.cpp )
+#add_library( test STATIC good.cpp souce.cpp )
 
 # main.cppからa.outを作成
 
-add_executable(a.out main.cpp)
+#add_executable(a.out main.cpp)
 
 # a.outを作成する際にはtest.aをリンクする
+
+#target_link_libraries(a.out test)
+
+
+
+
+### 共有ライブラを経由する方法 ###
+
+cmake_minimum_required(VERSION 3.16.3)
+project(cmake_test CXX)
+
+
+# good.cpp souce.cpp をコンパイルして共有ライブラリ　test.soを作成
+
+add_library(test SHARED good.cpp souce.cpp )
+
+# main.cpp から a.outを作成
+
+add_executable(a.out main.cpp)
+
+# a.outを作成する際には test.soをリンクする
 
 target_link_libraries(a.out test)
 
