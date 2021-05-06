@@ -58,4 +58,116 @@ Qiitaのこの記事を参考にした
 
 ### 共有ライブラリ
 
-1) 
+1) このやり方はよくわからなかったので自分でbuildする方法は後回し
+
+## CMakeでやってみる
+
+### 静的ライブラリ
+
+
+> cmake_minimum_required(VERSION 3.16.3)
+
+> project(cmake_test CXX)
+
+> add_library( test STATIC good.cpp souce.cpp ) # good.cpp souce.cpp　をコンパイルして静的ライブラリ　test.aを作成
+
+
+> add_executable(a.out main.cpp) # main.cppからa.outを作成
+
+> target_link_libraries(a.out test) # main.cppからa.outを作成
+
+### 共有ライブラリを経由する方法
+
+
+>cmake_minimum_required(VERSION 3.16.3)
+>project(cmake_test CXX)
+
+
+>add_library(test SHARED good.cpp souce.cpp ) # good.cpp souce.cpp をコンパイルして共有ライブラリ　test.soを作成
+
+
+>add_executable(a.out main.cpp) # main.cpp から a.outを作成 
+
+
+>target_link_libraries(a.out test) # a.outを作成する際には test.soをリンクする
+
+
+
+# STEP 3 souce code がサブディレクトリに分散している場合
+
+
+> ---/
+> |
+> | ---include/
+> |      | --good.h
+> |      | --class.h
+> |
+> | --- src/
+> |      | -- good.cpp
+> |      | -- souce.cpp
+> |
+> | --- main/
+> |      | --- main.cpp     
+
+
+
+## サブディレクトリが存在するときはディレクトリごとにCMakeLists.txtを書く
+
+
+1) @ ルートディレクトリ
+
+
+
+ルートディレクトリでのCMakeLists.txt
+
+>cmake_minimum_required(VERSION 3.16.3)
+>project(cmake_test CXX)
+
+ サブディレクトリを登録
+>add_subdirectory(test)
+>add_subdirectory(src)
+
+
+2) @ src
+
+
+サブディレクトリ(souce file)でのCMakeLists.txt
+
+共有ライブラリ sourceのコンパイルの仕方を指定
+
+>add_library(sample
+
+>SHARED
+
+>good.cpp
+>souce.cpp
+
+>)
+
+ testライブラリのinclude pathを指定
+
+ ここで PROJECT_SOURCE_DIRはプロジェクトのルートディレクトリの絶対path
+
+>target_include_directories(sample
+
+>PUBLIC ${PROJECT_SOURCE_DIR}/include
+
+>)
+
+
+3) @ test
+
+ main.cppディレクトリでのCMakeLists.txt
+
+
+ main.cppからa.outを作成
+
+>add_executable(a.out main.cpp)
+
+ a.out を作成する際にtestをリンクする
+
+>target_link_libraries(a.out sample)
+
+
+
+
